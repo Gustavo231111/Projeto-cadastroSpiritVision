@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'); /* Importa a fonte Poppins do Google Fonts */
+
+:root {
+    /* Definição de variáveis de cores e estilos */
+    --color-bg: #ffffff; /* Cor de fundo */
+    --color-primary: #1e3a8a; /* Azul profundo */
+    --color-primary-hover: #2563eb; /* Azul mais claro para hover */
+    --color-accent: #6366f1; /* Indigo */
+    --color-text-primary: #111827; /* Cor do texto principal */
+    --color-text-secondary: #6b7280; /* Cor do texto secundário */
+    --color-success-bg: #d1fae5; /* Fundo para mensagens de sucesso */
+    --color-success-text: #065f46; /* Texto para mensagens de sucesso */
+    --color-error-bg: #fee2e2; /* Fundo para mensagens de erro */
+    --color-error-text: #b91c1c; /* Texto para mensagens de erro */
+    --border-radius: 12px; /* Raio de borda para cantos arredondados */
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição rápida */
+}
+
+* {
+    box-sizing: border-box; /* Define o box-sizing para todos os elementos */
+}
+
+body {
+    margin: 0; /* Remove margens padrão */
+    font-family: 'Poppins', sans-serif; /* Define a fonte do corpo */
+    background: var(--color-bg); /* Define a cor de fundo */
+    color: var(--color-text-primary); /* Define a cor do texto */
+    display: flex; /* Usa flexbox para layout */
+    flex-direction: column; /* Alinha os itens em coluna */
+    min-height: 100vh; /* Garante que o corpo ocupe pelo menos 100% da altura da viewport */
+    background: url(image.png) no-repeat center center/cover; /* Define uma imagem de fundo */
+}
+
+header {
+    position: sticky; /* Mantém o cabeçalho fixo no topo */
+    top: 0; /* Posiciona o cabeçalho no topo */
+    background: var(--color-bg); /* Define a cor de fundo do cabeçalho */
+    padding: 1rem 2rem; /* Adiciona preenchimento ao cabeçalho */
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.05); /* Adiciona sombra ao cabeçalho */
+    z-index: 10; /* Define a ordem de empilhamento */
+    font-weight: 600; /* Define o peso da fonte */
+    font-size: 1.5rem; /* Define o tamanho da fonte */
+    color: var(--color-primary); /* Define a cor do texto do cabeçalho */
+    user-select: none; /* Impede a seleção de texto no cabeçalho */
+    font-family: cursive; /* Define a fonte como cursiva */
+}
+
+main {
+    flex-grow: 1; /* Permite que o main cresça para ocupar espaço disponível */
+    max-width: 480px; /* Define a largura máxima do main */
+    margin: 3rem auto 4rem; /* Define margens superior, lateral e inferior */
+    padding: 0 1rem; /* Adiciona preenchimento lateral */
+    width: 100%; /* Define a largura como 100% */
+}
+
+h1 {
+    font-weight: 700; /* Define o peso da fonte do título */
+    font-size: 2.5rem; /* Define o tamanho da fonte do título */
+    margin-bottom: 0.5rem; /* Adiciona margem inferior ao título */
+    color: rgb(0, 0, 0); /* Define a cor do título */
+    user-select: none; /* Impede a seleção de texto no título */
+    font-family: cursive; /* Define a fonte como cursiva */
+}
+
+p.subtitle {
+    color: #535966; /* Define a cor do subtítulo */
+    margin-bottom: 2rem; /* Adiciona margem inferior ao subtítulo */
+    font-size: 1.3rem; /* Define o tamanho da fonte do subtítulo */
+    font-family: cursive; /* Define a fonte como cursiva */
+}
+
+form {
+    background: #ffffffe5; /* Define a cor de fundo do formulário */
+    border-radius: 12px; /* Aplica bordas arredondadas ao formulário */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Adiciona sombra ao formulário */
+    padding: 2rem 2.5rem; /* Adiciona preenchimento ao formulário */
+    display: flex; /* Usa flexbox para layout */
+    flex-direction: column; /* Alinha os itens em coluna */
+    gap: 1.5rem; /* Define o espaço entre os itens do formulário */
+}
+
+label {
+    font-weight: 400; /* Define o peso da fonte do rótulo */
+    margin-bottom: 0.3rem; /* Adiciona margem inferior ao rótulo */
+    display: block; /* Exibe o rótulo como bloco */
+    color: rgba(0, 0, 0, 0.89); /* Define a cor do rótulo */
+    font-family: 'Times New Roman', Times, serif; /* Define a fonte do rótulo */
+    font-size: 20px; /* Define o tamanho da fonte do rótulo */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: 100%; /* Define a largura como 100% */
+    padding: 0.75rem 1rem; /* Adiciona preenchimento aos campos de entrada */
+    font-size: 1rem; /* Define o tamanho da fonte dos campos de entrada */
+    border-radius: var(--border-radius); /* Aplica bordas arredondadas */
+    border: 2px solid #000000; /* Define a borda dos campos de entrada */
+    background: rgb(255, 255, 255); /* Define a cor de fundo dos campos de entrada */
+    transition: border-color var(--transition-fast); /* Define a transição da cor da borda */
+    font-family: inherit; /* Herda a fonte do elemento pai */
+    color: var(--color-text-primary); /* Define a cor do texto dos campos de entrada */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+    outline: none; /* Remove o contorno padrão ao focar */
+    border-color: var(--color-primary); /* Altera a cor da borda ao focar */
+    box-shadow: 0 0 6px var(--color-primary); /* Adiciona sombra ao focar */
+}
+
+/* Estilos para o dropdown de seleção de curso */
+.course-select {
+    position: relative; /* Define a posição relativa para o dropdown */
+    width: 100%; /* Define a largura como 100% */
+}
+
+.course-select-button {
+    width: 100%; /* Define a largura como 100% */
+    padding: 0.75rem 1rem; /* Adiciona preenchimento ao botão de seleção */
+    font-size: 1rem; /* Define o tamanho da fonte do botão */
+    border-radius: var(--border-radius); /* Aplica bordas arredondadas ao botão */
+    border: 2px solid #000000; /* Define a borda do botão */
+    background: rgb(255, 255, 255); /* Define a cor de fundo do botão */
+    text-align: left; /* Alinha o texto à esquerda */
+    cursor: pointer; /* Muda o cursor para pointer ao passar o mouse */
+    display: flex; /* Usa flexbox para layout */
+    justify-content: space-between; /* Espaça os itens dentro do botão */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    color: var(--color-text-primary); /* Define a cor do texto do botão */
+    transition: border-color var(--transition-fast); /* Define a transição da cor da borda */
+}
+
+.course-select-button:focus {
+    outline: none; /* Remove o contorno padrão ao focar */
+    border-color: var(--color-primary); /* Altera a cor da borda ao focar */
+    box-shadow: 0 0 6px var(--color-primary); /* Adiciona sombra ao focar */
+}
+
+.course-select-button:hover {
+    border-color: var(--color-primary-hover); /* Altera a cor da borda ao passar o mouse */
+}
+
+.course-options {
+    position: absolute; /* Define a posição absoluta para as opções do dropdown */
+    top: calc(100% + 6px); /* Posiciona as opções abaixo do botão */
+    left: 0; /* Alinha à esquerda */
+    right: 0; /* Alinha à direita */
+    background: white; /* Define a cor de fundo das opções */
+    border-radius: var(--border-radius); /* Aplica bordas arredondadas às opções */
+    box-shadow: 0 4px 20px rgb(0 0 0 / 0.1); /* Adiciona sombra às opções */
+    max-height: 180px; /* Define a altura máxima do dropdown */
+    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+    z-index: 20; /* Define a ordem de empilhamento das opções */
+    opacity: 0; /* Inicialmente invisível */
+    pointer-events: none; /* Impede interações enquanto invisível */
+    transform: translateY(-10px); /* Move as opções para cima inicialmente */
+    transition: opacity 0.25s ease, transform 0.25s ease; /* Define transições para opacidade e transformação */
+}
+
+.course-options.open {
+    opacity: 1; /* Torna as opções visíveis */
+    pointer-events: auto; /* Permite interações quando visíveis */
+    transform: translateY(0); /* Restaura a posição original */
+}
+
+.course-option {
+    padding: 0.75rem 1rem; /* Adiciona preenchimento às opções */
+    cursor: pointer; /* Muda o cursor para pointer ao passar o mouse */
+    font-size: 1rem; /* Define o tamanho da fonte das opções */
+    color: var(--color-text-primary); /* Define a cor do texto das opções */
+    user-select: none; /* Impede a seleção de texto nas opções */
+    transition: background-color var(--transition-fast); /* Define a transição da cor de fundo */
+    color: #000000; /* Define a cor do texto das opções */
+    font-family: 'Times New Roman', Times, serif; /* Define a fonte das opções */
+}
+
+.course-option:hover,
+.course-option[aria-selected="true"] {
+    background-color: var(--color-primary-hover); /* Altera a cor de fundo ao passar o mouse ou selecionar */
+    color: white; /* Altera a cor do texto ao passar o mouse ou selecionar */
+}
+
+button[type="submit"] {
+    margin-top: 1rem; /* Adiciona margem superior ao botão de envio */
+    background: var(--color-primary); /* Define a cor de fundo do botão de envio */
+    color: white; /* Define a cor do texto do botão de envio */
+    padding: 0.85rem 1rem; /* Adiciona preenchimento ao botão de envio */
+    font-size: 1.2rem; /* Define o tamanho da fonte do botão de envio */
+    font-weight: 600; /* Define o peso da fonte do botão de envio */
+    border: none; /* Remove a borda do botão de envio */
+    border-radius: var(--border-radius); /* Aplica bordas arredondadas ao botão de envio */
+    cursor: pointer; /* Muda o cursor para pointer ao passar o mouse */
+    transition: background-color var(--transition-fast), transform 0.2s ease; /* Define transições para cor de fundo e transformação */
+    font-family: Georgia, 'Times New Roman', Times, serif; /* Define a fonte do botão de envio */
+}
+
+button[type="submit"]:hover {
+    background: var(--color-primary-hover); /* Altera a cor de fundo ao passar o mouse */
+    transform: scale(1.03); /* Aumenta levemente o tamanho ao passar o mouse */
+}
+
+button[type="submit"]:focus {
+    outline: 3px solid var(--color-accent); /* Adiciona contorno ao focar no botão */
+    outline-offset: 2px; /* Define o deslocamento do contorno */
+}
+
+/* Estilos para mensagens de erro */
+.error-message {
+    font-size: 0.875rem; /* Define o tamanho da fonte da mensagem de erro */
+    color: var(--color-error-text); /* Define a cor do texto da mensagem de erro */
+    margin-top: 0.25rem; /* Adiciona margem superior à mensagem de erro */
+    display: none; /* Inicialmente oculta a mensagem de erro */
+}
+
+input.invalid,
+.course-select-button.invalid {
+    border-color: var(--color-error-text); /* Altera a cor da borda para vermelho se inválido */
+}
+
+input.invalid + .error-message,
+.course-select-button.invalid + .error-message {
+    display: block; /* Exibe a mensagem de erro se o campo estiver inválido */
+}
+
+/* Estilos para a mensagem de sucesso */
+.success-message {
+    margin-top: 2rem; /* Adiciona margem superior à mensagem de sucesso */
+    background: var(--color-success-bg); /* Define a cor de fundo da mensagem de sucesso */
+    color: var(--color-success-text); /* Define a cor do texto da mensagem de sucesso */
+    border-radius: var(--border-radius); /* Aplica bordas arredondadas à mensagem de sucesso */
+    padding: 1.25rem 1.5rem; /* Adiciona preenchimento à mensagem de sucesso */
+    font-size: 1.125rem; /* Define o tamanho da fonte da mensagem de sucesso */
+    font-weight: 600; /* Define o peso da fonte da mensagem de sucesso */
+    box-shadow: 0 4px 20px rgba(11, 155, 114, 0.4); /* Adiciona sombra à mensagem de sucesso */
+    user-select: none; /* Impede a seleção de texto na mensagem de sucesso */
+    animation: fadeInSlideDown 0.5s ease forwards; /* Adiciona animação à mensagem de sucesso */
+}
+
+/* Animação para a mensagem de sucesso */
+@keyframes fadeInSlideDown {
+    0% {
+        opacity: 0; /* Começa invisível */
+        transform: translateY(-15px); /* Move para cima */
+    }
+    100% {
+        opacity: 1; /* Torna visível */
+        transform: translateY(0); /* Restaura a posição original */
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    main {
+        margin: 2rem 1rem 3rem; /* Ajusta margens em telas menores */
+        max-width: 100%; /* Define a largura máxima como 100% */
+    }
+}
+

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formulário Inteligente de Leads</title>
+<link rel="stylesheet" href="index.css"> <!--Link para o arquivo CSS de estilo-->
+
+</head>
+<body>
+<header>
+SpiritVision <!-- Cabeçalho da página -->
+</header>
+<main>
+  <h1>Inscreva-se no seu curso favorito e tenha o melhor aprendizado</h1>
+  <p class="subtitle">Preencha as informações para garantir sua vaga e receber conteúdo exclusivo de qualidade!</p>
+  <form id="lead-form" novalidate> <!-- Formulário para coleta de dados -->
+    <div>
+      <label for="name">Nome completo</label>
+      <input type="text" id="name" name="name" placeholder="Seu nome" autocomplete="name" required /> <!-- Campo para nome -->
+      <div class="error-message" id="error-name">Por favor, insira seu nome.</div> <!-- Mensagem de erro para nome -->
+    </div>
+    <div>
+      <label for="age">Idade</label>
+      <input type="number" id="age" name="age" placeholder="Sua idade" min="1" max="120" required /> <!-- Campo para idade -->
+      <div class="error-message" id="error-age">Informe uma idade válida (1-120).</div> <!-- Mensagem de erro para idade -->
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required /> <!-- Campo para email -->
+      <div class="error-message" id="error-email">Digite um email válido.</div> <!-- Mensagem de erro para email -->
+    </div>
+    <div class="course-select" id="course-select">
+      <label for="course-select-button">Curso de interesse</label>
+      <button type="button" class="course-select-button" id="course-select-button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="course-select-button-label" aria-describedby="course-select-desc" required>
+        <span id="course-select-button-label">Selecione um curso</span>
+        <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" viewBox="0 0 24 24" ><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="course-options" role="listbox" id="course-options" tabindex="-1" aria-describedby="course-select-desc">
+        <!-- Opções de cursos disponíveis -->
+        <div class="course-option" role="option" tabindex="0" data-value="Inglês" aria-selected="false">Inglês</div>
+        <div class="course-option" role="option" tabindex="0" data-value="Espanhol" aria-selected="false">Espanhol</div>
+        <div class="course-option" role="option" tabindex="0" data-value="Libras" aria-selected="false">Libras</div>
+        <div class="course-option" role="option" tabindex="0" data-value="Maquiagem profissional" aria-selected="false">Maquiagem profissional</div>
+        <div class="course-option" role="option" tabindex="0" data-value="Lógica de programação" aria-selected="false">Lógica de programação</div>
+        <div class="course-option" role="option" tabindex="0" data-value="Culinária" aria-selected="false">Culinária</div>
+      </div>
+      <div class="error-message" id="error-course">Por favor, selecione um curso.</div> <!-- Mensagem de erro para curso -->
+    </div>
+
+    <button type="submit">Enviar inscrição</button> <!-- Botão para enviar o formulário -->
+  </form>
+
+  <div id="message-container" aria-live="polite" role="region"></div> <!-- Container para mensagens de sucesso -->
+</main>
+
+<script>
+  (() => {
+    const form = document.getElementById('lead-form'); // Seleciona o formulário
+    const nameInput = document.getElementById('name'); // Seleciona o campo de nome
+    const ageInput = document.getElementById('age'); // Seleciona o campo de idade
+    const emailInput = document.getElementById('email'); // Seleciona o campo de email
+
+    const courseSelectButton = document.getElementById('course-select-button'); // Seleciona o botão de seleção de curso
+    const courseOptions = document.getElementById('course-options'); // Seleciona as opções de curso
+    const courseOptionElements = courseOptions.querySelectorAll('.course-option'); // Seleciona todos os elementos de opção de curso
+    const errorName = document.getElementById('error-name'); // Seleciona a mensagem de erro para nome
+    const errorAge = document.getElementById('error-age'); // Seleciona a mensagem de erro para idade
+    const errorEmail = document.getElementById('error-email'); // Seleciona a mensagem de erro para email
+    const errorCourse = document.getElementById('error-course'); // Seleciona a mensagem de erro para curso
+    const messageContainer = document.getElementById('message-container'); // Seleciona o container de mensagens
+
+    let selectedCourse = null; // Variável para armazenar o curso selecionado
+
+    // Função para alternar a exibição do dropdown de cursos
+    function toggleDropdown(open) {
+      const isOpen = courseOptions.classList.contains('open'); // Verifica se o dropdown está aberto
+      if (typeof open === 'boolean') {
+        if (open !== isOpen) {
+          if (open) {
+            courseOptions.classList.add('open'); // Abre o dropdown
+            courseSelectButton.setAttribute('aria-expanded', 'true'); // Atualiza o atributo aria
+            courseOptions.focus(); // Foca nas opções do curso
+          } else {
+            courseOptions.classList.remove('open'); // Fecha o dropdown
+            courseSelectButton.setAttribute('aria-expanded', 'false'); // Atualiza o atributo aria
+          }
+        }
+      } else {
+        if (isOpen) {
+          courseOptions.classList.remove('open'); // Fecha o dropdown
+          courseSelectButton.setAttribute('aria-expanded', 'false'); // Atualiza o atributo aria
+        } else {
+          courseOptions.classList.add('open'); // Abre o dropdown
+          courseSelectButton.setAttribute('aria-expanded', 'true'); // Atualiza o atributo aria
+          courseOptions.focus(); // Foca nas opções do curso
+        }
+      }
+    }
+
+    courseSelectButton.addEventListener('click', () => {
+      toggleDropdown(); // Alterna o dropdown ao clicar no botão
+    });
+
+    // Função para selecionar um curso
+    function selectCourse(option) {
+      selectedCourse = option.dataset.value; // Armazena o valor do curso selecionado
+      courseOptionElements.forEach(opt => {
+        opt.setAttribute('aria-selected', 'false'); // Reseta a seleção de todas as opções
+      });
+      option.setAttribute('aria-selected', 'true'); // Marca a opção selecionada
+      document.getElementById('course-select-button-label').textContent = selectedCourse; // Atualiza o texto do botão
+
+      courseSelectButton.classList.remove('invalid'); // Remove a classe de erro do botão
+      errorCourse.style.display = 'none'; // Esconde a mensagem de erro do curso
+      toggleDropdown(false); // Fecha o dropdown
+    }
+
+    courseOptionElements.forEach((option) => {
+      option.addEventListener('click', () => selectCourse(option)); // Seleciona o curso ao clicar
+      option.addEventListener('keydown', (event) => {
+        const index = Array.from(courseOptionElements).indexOf(option); // Obtém o índice da opção
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectCourse(option); // Seleciona o curso ao pressionar Enter ou Espaço
+          courseSelectButton.focus(); // Foca no botão após a seleção
+        } else if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          const nextIndex = (index + 1) % courseOptionElements.length; // Move para a próxima opção
+          courseOptionElements[nextIndex].focus(); // Foca na próxima opção
+        } else if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          const prevIndex = (index - 1 + courseOptionElements.length) % courseOptionElements.length; // Move para a opção anterior
+          courseOptionElements[prevIndex].focus(); // Foca na opção anterior
+        } else if (event.key === 'Escape') {
+          toggleDropdown(false); // Fecha o dropdown ao pressionar Escape
+          courseSelectButton.focus(); // Foca no botão
+        }
+      });
+    });
+
+    // Fecha o dropdown se clicar fora dele
+    document.addEventListener('click', (e) => {
+      if (!courseSelectButton.contains(e.target) && !courseOptions.contains(e.target)) {
+        toggleDropdown(false); // Fecha o dropdown
+      }
+    });
+
+    // Funções de validação
+    function validateName() {
+      if (nameInput.value.trim().length === 0) {
+        nameInput.classList.add('invalid'); // Adiciona classe de erro se o nome estiver vazio
+        errorName.style.display = 'block'; // Exibe mensagem de erro
+        return false;
+      } else {
+        nameInput.classList.remove('invalid'); // Remove classe de erro se o nome for válido
+        errorName.style.display = 'none'; // Esconde mensagem de erro
+        return true;
+      }
+    }
+
+    function validateAge() {
+      const value = Number(ageInput.value); // Converte a idade para número
+      if (!value || value < 1 || value > 120) {
+        ageInput.classList.add('invalid'); // Adiciona classe de erro se a idade for inválida
+        errorAge.style.display = 'block'; // Exibe mensagem de erro
+        return false;
+      } else {
+        ageInput.classList.remove('invalid'); // Remove classe de erro se a idade for válida
+        errorAge.style.display = 'none'; // Esconde mensagem de erro
+        return true;
+      }
+    }
+
+    function validateEmail() {
+      const email = emailInput.value.trim(); // Obtém o email
+      // Regex simples para validação de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        emailInput.classList.add('invalid'); // Adiciona classe de erro se o email for inválido
+        errorEmail.style.display = 'block'; // Exibe mensagem de erro
+        return false;
+      } else {
+        emailInput.classList.remove('invalid'); // Remove classe de erro se o email for válido
+        errorEmail.style.display = 'none'; // Esconde mensagem de erro
+        return true;
+      }
+    }
+
+    function validateCourse() {
+      if (!selectedCourse) {
+        courseSelectButton.classList.add('invalid'); // Adiciona classe de erro se nenhum curso for selecionado
+        errorCourse.style.display = 'block'; // Exibe mensagem de erro
+        return false;
+      } else {
+        courseSelectButton.classList.remove('invalid'); // Remove classe de erro se um curso for selecionado
+        errorCourse.style.display = 'none'; // Esconde mensagem de erro
+        return true;
+      }
+    }
+
+    // Validação em tempo real
+    nameInput.addEventListener('input', validateName); // Valida nome ao digitar
+    ageInput.addEventListener('input', validateAge); // Valida idade ao digitar
+    emailInput.addEventListener('input', validateEmail); // Valida email ao digitar
+
+    // Submissão do formulário
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Previne o comportamento padrão de envio do formulário
+
+      // Valida todos os campos
+      const isNameValid = validateName();
+      const isAgeValid = validateAge();
+      const isEmailValid = validateEmail();
+      const isCourseValid = validateCourse();
+
+      if (!(isNameValid && isAgeValid && isEmailValid && isCourseValid)) {
+        messageContainer.textContent = ''; // Limpa mensagens se houver erro
+        return;
+      }
+
+      // Prepara os dados para salvar
+      const leadData = {
+        name: nameInput.value.trim(),
+        age: Number(ageInput.value),
+        email: emailInput.value.trim(),
+        course: selectedCourse,
+        timestamp: new Date().toISOString(), // Adiciona timestamp
+      };
+
+      // Salva no localStorage - acumula em um array
+      const savedLeadsJson = localStorage.getItem('leads'); // Obtém os leads salvos
+      let savedLeads = [];
+      if (savedLeadsJson) {
+        try {
+          savedLeads = JSON.parse(savedLeadsJson); // Tenta converter para array
+          if (!Array.isArray(savedLeads)) {
+            savedLeads = []; // Se não for um array, inicializa como vazio
+          }
+        } catch {
+          savedLeads = []; // Se houver erro, inicializa como vazio
+        }
+      }
+      savedLeads.push(leadData); // Adiciona os novos dados ao array
+      localStorage.setItem('leads', JSON.stringify(savedLeads)); // Salva o array atualizado no localStorage
+
+      // Mensagens inspiradoras personalizadas por curso
+      const inspirationalMessages = {
+        'Inglês': "Aprender Inglês abre portas para o mundo! Continue assim, você vai longe!",
+        'Espanhol': "Dominar o Espanhol é um superpoder global. Mantenha o foco e conquiste seus sonhos!",
+        'Libras': "Comunicar-se em Libras é construir pontes de inclusão. Parabéns pela escolha impactante!",
+        'Maquiagem profissional': "A beleza está na arte que você cria. Que seu talento brilhe ainda mais!",
+        'Lógica de programação': "A lógica é a chave do futuro digital. Continue programando seu sucesso!",
+        'Culinária': "Cozinhar é uma forma de amor e criatividade. Que seus pratos encantem o mundo!",
+      };
+
+      const message = inspirationalMessages[selectedCourse] || "Obrigado por se inscrever!"; // Mensagem personalizada
+
+      // Exibe mensagem de sucesso
+      messageContainer.innerHTML = `<div class="success-message" tabindex="0">Obrigado, <strong>${leadData.name}</strong>!<br>${message}</div>`;
+
+      // Reseta o formulário
+      form.reset();
+      selectedCourse = null; // Reseta a seleção do curso
+      document.getElementById('course-select-button-label').textContent = 'Selecione um curso'; // Reseta o texto do botão
+
+      // Restaura qualquer exibição de validação
+      nameInput.classList.remove('invalid');
+      ageInput.classList.remove('invalid');
+      emailInput.classList.remove('invalid');
+      courseSelectButton.classList.remove('invalid');
+
+      // Foca na mensagem de sucesso para acessibilidade
+      const successDiv = messageContainer.querySelector('.success-message');
+      successDiv.focus();
+    });
+
+  })();
+</script>
+</body>
+</html>
