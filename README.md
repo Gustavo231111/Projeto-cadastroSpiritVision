@@ -32,7 +32,7 @@ https://github.com/user-attachments/assets/199828b8-16c2-4452-b45c-2eaa245e9283
 
 ## LINK PARA ACESSAR O SITE
 https://gustavo231111.github.io/Projeto-cadastroSpiritVision/
-![1000200936](https://github.com/user-attachments/assets/ff3de4ac-a1d2-4d5f-bc34-4c589e72d7ea)
+
 
 
        
